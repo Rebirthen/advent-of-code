@@ -2,7 +2,9 @@ package year2024.day4;
 
 import year2024.Reader;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Day4 {
     static TrieNode root;
@@ -13,17 +15,48 @@ public class Day4 {
     public static void main(String[] args) {
         List<String> lines = Reader.getListFromFile("day4/input.txt");
         char[][] grid = createMatrix(lines);
-        root = createTrie();
+        root = createTrie("XMAS");
         m = grid.length;
         n = grid[0].length;
-        calculateTotalWords(grid);
+//        calculateTotalWords(grid);
+        root = createTrie("MAS");
+        calculateXMAS(grid);
 
         System.out.printf("Day 4: %d\n", sum);
     }
 
-    private static TrieNode createTrie() {
+    private static void calculateXMAS(char[][] grid) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                checkDiagonalPaths(grid, i, j);
+            }
+        }
+    }
+
+
+    private static void checkDiagonalPaths(char[][] grid, int i, int j) {
+        List<Direction> map = List.of(
+                Direction.DIAGONAL_UP, Direction.DIAGONAL_DOWN);
+        for (Direction direction : map) {
+            if(dfs(grid, i, j, root, 1, direction)){
+                int x = direction.j*2;
+                int y = direction.i*2;
+                switch (direction){
+                    case DIAGONAL_UP:
+                        if(dfs(grid, i, j+ x, root, 1, Direction.DIAGONAL_LEFT)) sum++;
+                        if(dfs(grid, i+ y, j, root, 1, Direction.DIAGONAL_RIGHT)) sum++;
+                    case DIAGONAL_DOWN:
+                        if(dfs(grid, i, j+ x, root, 1, Direction.DIAGONAL_RIGHT)) sum++;
+                        if(dfs(grid, i+ y, j, root, 1, Direction.DIAGONAL_LEFT)) sum++;
+
+                }
+
+            }
+        }
+    }
+
+    private static TrieNode createTrie(String word) {
         TrieNode root = new TrieNode();
-        String word = "XMAS";
         TrieNode curr = root;
         for (int i = 0; i < word.length(); i++) {
             int index = word.charAt(i) - 'A';
@@ -34,6 +67,7 @@ public class Day4 {
 
         return root;
     }
+
 
     private static char[][] createMatrix(List<String> lines) {
         char[][] grid = new char[lines.size()][lines.get(0).length()];
@@ -46,13 +80,13 @@ public class Day4 {
     private static void calculateTotalWords(char[][] grid) {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                 checkPaths(grid, i, j);
+                checkPaths(grid, i, j);
             }
         }
     }
 
     private static void checkPaths(char[][] grid, int i, int j) {
-        for(Direction direction : Direction.values()) {
+        for (Direction direction : Direction.values()) {
             dfs(grid, i, j, root, 1, direction);
         }
     }
@@ -61,8 +95,8 @@ public class Day4 {
         if (i >= 0 && i < grid.length && j >= 0 && j < grid[0].length && count <= 4) {
             TrieNode next = curr.children[grid[i][j] - 'A'];
             if (next == null) return false;
-            if (next.isWord && count == 4) {
-                sum++;
+            if (next.isWord && count == 3) {
+                //sum++; 1 day code
                 return true;
             }
 
@@ -73,6 +107,7 @@ public class Day4 {
     }
 }
 
+
 enum Direction {
     UP(1, 0),
     DOWN(-1, 0),
@@ -80,8 +115,8 @@ enum Direction {
     RIGHT(0, 1),
     DIAGONAL_UP(1, 1),
     DIAGONAL_DOWN(-1, -1),
-    DIAGONAL_LEFT(-1, 1),
-    DIAGONAL_RIGHT(1, -1);
+    DIAGONAL_RIGHT(-1, 1),
+    DIAGONAL_LEFT(1, -1);
 
     final int i;
     final int j;
