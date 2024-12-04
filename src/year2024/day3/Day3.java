@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class Day3 {
     public static void main(String[] args) {
-        List<String> lines = Reader.getListFromFile("day3/input.txt");
+        List<String> lines = Reader.getListFromFile("day3/test.txt");
 
         int sum = calculateWithDoInstructions(lines);
 

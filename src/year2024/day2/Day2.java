@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Day2 {
     public static void main(String[] args) {
-        List<String> lines = Reader.getListFromFile("day2/input.txt");
+        List<String> lines = Reader.getListFromFile("day2/test.txt");
 
        int sum = calculateSafeRowsWithProblemDampener(lines);
 

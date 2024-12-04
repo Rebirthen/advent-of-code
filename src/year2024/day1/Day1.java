@@ -7,7 +7,7 @@ import year2024.Reader;
 public class Day1 {
     public static void main(String[] args) {
 
-        List<String> lines = Reader.getListFromFile("day1/input.txt");
+        List<String> lines = Reader.getListFromFile("day1/**/input.txt.txt");
 
         int sum = calculateSimilarityScore(lines);
 
