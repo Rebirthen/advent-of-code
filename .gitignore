@@ -15,6 +15,7 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+**/input.txt
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
