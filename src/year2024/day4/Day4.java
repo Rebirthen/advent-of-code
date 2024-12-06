@@ -13,7 +13,7 @@ public class Day4 {
     static int sum;
 
     public static void main(String[] args) {
-        List<String> lines = Reader.getListFromFile("day4/input.txt");
+        List<String> lines = Reader.getListFromFile("day4/test.txt");
         char[][] grid = createMatrix(lines);
         root = createTrie("XMAS");
         m = grid.length;
@@ -44,10 +44,8 @@ public class Day4 {
                 switch (direction){
                     case DIAGONAL_UP:
                         if(dfs(grid, i, j+ x, root, 1, Direction.DIAGONAL_LEFT)) sum++;
-                        if(dfs(grid, i+ y, j, root, 1, Direction.DIAGONAL_RIGHT)) sum++;
                     case DIAGONAL_DOWN:
                         if(dfs(grid, i, j+ x, root, 1, Direction.DIAGONAL_RIGHT)) sum++;
-                        if(dfs(grid, i+ y, j, root, 1, Direction.DIAGONAL_LEFT)) sum++;
 
                 }
 
